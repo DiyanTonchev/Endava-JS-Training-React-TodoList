@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AddTodo from './AddTodo'
 import TodoItem from './TodoItem'
-import uuid from 'uuid';
+// import uuid from 'uuid';
 
 class TodoList extends Component {
   state = {
@@ -58,11 +58,27 @@ class TodoList extends Component {
   }
 
   addTodo = (title) => {
-    let { todos } = this.state;
-    todos.push({ id: uuid.v4(), title, completed: false });
-    this.setState({
-      todos
+    fetch('https://jsonplaceholder.typicode.com/todos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        completed: false
+      })
     })
+      .then(res => res.json())
+      .then((newTodo) => {
+        this.setState({
+          todos: [ ...this.state.todos, newTodo]
+        })
+      });
+    // let { todos } = this.state;
+    // todos.push({ id: uuid.v4(), title, completed: false });
+    // this.setState({
+    //   todos
+    // })
   }
 
   // shouldComponentUpdate(prevProps, prevState) {
