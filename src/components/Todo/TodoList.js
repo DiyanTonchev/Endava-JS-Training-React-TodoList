@@ -24,6 +24,13 @@ class TodoList extends Component {
     ]
   }
 
+  constructor(props) {
+    super(props)
+    this.toggleComplete = this.toggleComplete.bind(this);
+    this.addTodo = this.addTodo.bind(this);
+    this.removeTodo = this.removeTodo.bind(this);
+  }
+
   componentDidMount() {
     fetch('https://jsonplaceholder.typicode.com/todos?_limit=10')
       .then(res => res.json())
@@ -34,7 +41,7 @@ class TodoList extends Component {
       });
   }
 
-  toggleComplete = (id) => {
+  toggleComplete(id) {
     let { todos } = this.state;
     todos = todos.map(todo => {
       if (todo.id === id) {
@@ -49,7 +56,7 @@ class TodoList extends Component {
     })
   }
 
-  removeTodo = (id) => {
+  removeTodo(id) {
     let { todos } = this.state;
     todos = todos.filter(todo => todo.id !== id);
     this.setState({
@@ -57,7 +64,7 @@ class TodoList extends Component {
     })
   }
 
-  addTodo = (title) => {
+  addTodo(title) {
     fetch('https://jsonplaceholder.typicode.com/todos', {
       method: 'POST',
       headers: {
@@ -71,7 +78,7 @@ class TodoList extends Component {
       .then(res => res.json())
       .then((newTodo) => {
         this.setState({
-          todos: [ ...this.state.todos, newTodo]
+          todos: [...this.state.todos, newTodo]
         })
       });
     // let { todos } = this.state;
@@ -81,8 +88,9 @@ class TodoList extends Component {
     // })
   }
 
-  // shouldComponentUpdate(prevProps, prevState) {
+  // shouldComponentUpdate(nextProps, nextState) {
   //   debugger;
+  //   return true;
   // }
 
   render() {
